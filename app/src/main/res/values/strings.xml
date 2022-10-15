@@ -13,4 +13,11 @@
     <string name="tax">Налог: %s</string>
     <string name="total">Итого: %s</string>
     <string name="submit">Отправить</string>
+    <string name="new_lunchtray_order">Новый заказ</string>
+    <string name="order_details">
+        Основное блюдо: %1$s \n
+        Гарнир: %2$s \n
+        Дополненение: %3$s \n
+        Итого: %4$s \n\n
+        Спасибо!</string>
 </resources>

@@ -47,7 +47,7 @@ object DataSource {
             price = 3.00,
         ),
         SideDishItem(
-            name = "Острый картофел",
+            name = "Острый картофель",
             description = "Мраморный картофель, запеченый и обжаренный в домашних специях",
             price = 2.00,
         ),

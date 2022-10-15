@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,10 +28,25 @@ import com.example.lunchtray.model.OrderUiState
 @Composable
 fun CheckoutScreen(
     orderUiState: OrderUiState,
-    onNextButtonClicked: () -> Unit,
+    //onNextButtonClicked: () -> Unit,
     onCancelButtonClicked: () -> Unit,
+    onSendButtonClicked:(String, String)->Unit,
     modifier: Modifier = Modifier
 ) {
+
+
+
+    val orderSummary = stringResource(
+        R.string.order_details,
+        orderUiState.entree?.name ?: "",
+        orderUiState.sideDish?.name ?: "",
+        orderUiState.accompaniment?.name ?: "",
+        orderUiState.orderTotalPrice
+    )
+    val newOrder = stringResource(R.string.new_lunchtray_order)
+
+
+
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -76,7 +92,7 @@ fun CheckoutScreen(
             }
             Button(
                 modifier = Modifier.weight(1f),
-                onClick = onNextButtonClicked
+                onClick = { onSendButtonClicked(newOrder, orderSummary) }
             ) {
                 Text(stringResource(R.string.submit).uppercase())
             }
@@ -123,7 +139,8 @@ fun CheckoutScreenPreview() {
             orderTax = 1.00,
             orderTotalPrice = 16.00
         ),
-        onNextButtonClicked = {},
-        onCancelButtonClicked = {}
+        //onNextButtonClicked = {},
+        onCancelButtonClicked = {},
+        onSendButtonClicked = {subject: String, summary: String ->}
     )
 }
