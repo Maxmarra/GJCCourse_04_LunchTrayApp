@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.lunchtray.ui
 
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +32,8 @@ fun BaseMenuScreen(
     modifier: Modifier = Modifier
 ) {
 
+    //нужно для ослеживания selected или нет
+    //если имя еды совпадает с тем что лежит здесь то будет selected
     var selectedItemName by rememberSaveable { mutableStateOf("") }
 
     Column (modifier = modifier
@@ -58,13 +45,17 @@ fun BaseMenuScreen(
             MenuItemRow(
                 item = item,
                 selectedItemName = selectedItemName,
+                //здесь получаем имя выбранной еды после клика
                 onSelectionItemChanged = { selectedItemName = item.name },
+                //здесь отслеживаем выбор как таковой после клика
+                //обработаем его уже в навигации
                 onSelectionChanged = onSelectionChanged
             )
         }
 
         MenuScreenButtonGroup(
             selectedItemName = selectedItemName,
+            //обработаем в навигации
             onCancelButtonClicked = onCancelButtonClicked,
             onNextButtonClicked = {
                 // Assert not null bc next button is not enabled unless selectedItem is not null.
@@ -86,7 +77,10 @@ fun MenuItemRow(
         modifier = Modifier.selectable(
             selected = selectedItemName == item.name,
             onClick = {
+                //здесь только имя
                 onSelectionItemChanged(item.name)
+                //здесь обработка выбора
+                //будет задана через viewModel и исполнена в навигации
                 onSelectionChanged(item)
             }
         ),
@@ -131,7 +125,9 @@ fun MenuScreenButtonGroup(
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ){
-        OutlinedButton(modifier = Modifier.weight(1f), onClick = onCancelButtonClicked) {
+        OutlinedButton(
+            modifier = Modifier.weight(1f),
+            onClick = onCancelButtonClicked) {
             Text(stringResource(R.string.cancel).uppercase())
         }
         Button(
